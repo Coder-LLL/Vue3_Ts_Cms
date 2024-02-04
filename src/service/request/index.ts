@@ -35,7 +35,7 @@ class HYRequest {
     // 2.添加所有的实例都有的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('所有的实例都有的拦截器: 请求成功拦截')
+        // console.log('所有的实例都有的拦截器: 请求成功拦截')
 
         if (this.showLoading) {
           this.loading = ElLoading.service({
@@ -54,7 +54,7 @@ class HYRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('所有的实例都有的拦截器: 响应成功拦截')
+        // console.log('所有的实例都有的拦截器: 响应成功拦截')
 
         // 将loading移除
         this.loading?.close()
@@ -87,9 +87,10 @@ class HYRequest {
         config = config.interceptors.requestInterceptor(config)
       }
 
-      // 2.判断是否需要显示loading
+      // 2.判断是否需要显示loading  在某次请求中可能会设置是否显示，如果设置了就覆盖在实例中设置的
       if (config.showLoading === false) {
         this.showLoading = config.showLoading
+        // console.log(this.showLoading)
       }
 
       this.instance
@@ -99,7 +100,7 @@ class HYRequest {
           if (config.interceptors?.responseInterceptor) {
             res = config.interceptors.responseInterceptor(res)
           }
-          // 2.将showLoading设置true, 这样不会影响下一个请求
+          // 2.因为在本次请求中，可能覆盖了实例的showLoading,所以要将showLoading设置true, 这样不会影响下一个请求
           this.showLoading = DEAFULT_LOADING
 
           // 3.将结果resolve返回出去

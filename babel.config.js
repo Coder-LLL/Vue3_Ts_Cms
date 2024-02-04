@@ -1,5 +1,6 @@
 module.exports = {
   plugins: [
+    // babel-plugin-import：当从element-plus导入组件的时候，自动导入对应的css
     [
       'import',
       {
